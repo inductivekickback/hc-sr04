@@ -6,3 +6,5 @@ Conforms to the [Sensor subsystem API](https://developer.nordicsemi.com/nRF_Conn
  - HC_SR04_NRFX uses TIMER, PPI, and EGU peripherals to limit CPU activity while measuring and enhance precision
  
 Builds from from the v1.4.0 tag of [NCS](https://github.com/nrfconnect/sdk-nrf).
+
+![ss](https://user-images.githubusercontent.com/6494431/98500542-a1374e00-2201-11eb-9783-fd52ad7a6a71.png)
