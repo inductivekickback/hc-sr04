@@ -1,0 +1,19 @@
+# HC-SR04 Ultrasonic Ranging Module
+#
+# Copyright (c) 2020 Daniel Veilleux
+#
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+#
+
+menuconfig HC_SR04
+	bool "HC-SR04 Ultrasonic Ranging Module"
+	help
+	  Enable HC-SR04 ultrasonic distance sensor.
+
+if HC_SR04
+
+module = HC_SR04
+module-str = HC-SR04
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+endif #HC_SR04

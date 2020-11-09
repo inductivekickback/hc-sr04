@@ -1,0 +1,103 @@
+# HC-SR04 Ultrasonic Ranging Module
+#
+# Copyright (c) 2020 Daniel Veilleux
+#
+# SPDX-License-Identifier: LicenseRef-BSD-5-Clause-Nordic
+#
+
+menuconfig HC_SR04_NRFX
+	bool "HC-SR04 Ultrasonic Ranging Module"
+	select NRFX_PPI
+	select NRFX_GPIOTE
+	select NRFX_TIMER
+	select NRFX_EGU
+	depends on !GPIO
+	help
+	  Enable HC-SR04 ultrasonic distance sensor.
+
+if HC_SR04_NRFX
+
+menu "HC-SR04_NRFX configuration"
+
+choice
+	prompt "TIMER for pulse measurement"
+	default HC_SR04_NRFX_USE_TIMER2
+	help
+		Selects which TIMER to use:
+		-  TIMER0
+		-  TIMER1
+		-  TIMER2
+		-  TIMER3
+		-  TIMER4
+	config HC_SR04_NRFX_USE_TIMER0
+		bool "TIMER0"
+	  select NRFX_TIMER0
+	config HC_SR04_NRFX_USE_TIMER1
+		bool "TIMER1"
+	  select NRFX_TIMER1
+	config HC_SR04_NRFX_USE_TIMER2
+		bool "TIMER2"
+	  select NRFX_TIMER2
+	config HC_SR04_NRFX_USE_TIMER3
+		bool "TIMER3"
+	  select NRFX_TIMER3
+	config HC_SR04_NRFX_USE_TIMER4
+		bool "TIMER4"
+	  select NRFX_TIMER4
+endchoice
+
+config HC_SR04_NRFX_TIMER
+	int
+	default 0 if HC_SR04_NRFX_USE_TIMER0
+	default 1 if HC_SR04_NRFX_USE_TIMER1
+	default 2 if HC_SR04_NRFX_USE_TIMER2
+	default 3 if HC_SR04_NRFX_USE_TIMER3
+	default 4 if HC_SR04_NRFX_USE_TIMER4
+
+choice
+	prompt "EGU for pulse measurement"
+	default HC_SR04_NRFX_USE_EGU0
+	help
+		Selects which EGU to use:
+		-  EGU0
+		-  EGU1
+		-  EGU2
+		-  EGU3
+		-  EGU4
+		-  EGU5
+	config HC_SR04_NRFX_USE_EGU0
+		bool "EGU0"
+	  select NRFX_EGU0
+	config HC_SR04_NRFX_USE_EGU1
+		bool "EGU1"
+	  select NRFX_EGU1
+	config HC_SR04_NRFX_USE_EGU2
+		bool "EGU2"
+	  select NRFX_EGU2
+	config HC_SR04_NRFX_USE_EGU3
+		bool "EGU3"
+	  select NRFX_EGU3
+	config HC_SR04_NRFX_USE_EGU4
+		bool "EGU4"
+	  select NRFX_EGU4
+	config HC_SR04_NRFX_USE_EGU5
+		bool "EGU5"
+	  select NRFX_EGU5
+endchoice
+
+config HC_SR04_NRFX_EGU
+	int
+	default 0 if HC_SR04_NRFX_USE_EGU0
+	default 1 if HC_SR04_NRFX_USE_EGU1
+	default 2 if HC_SR04_NRFX_USE_EGU2
+	default 3 if HC_SR04_NRFX_USE_EGU3
+	default 4 if HC_SR04_NRFX_USE_EGU4
+	default 5 if HC_SR04_NRFX_USE_EGU5
+
+endmenu
+
+module = HC_SR04_NRFX
+module-str = HC-SR04_NRFX
+source "${ZEPHYR_BASE}/subsys/logging/Kconfig.template.log_config"
+
+endif #HC_SR04_NRFX

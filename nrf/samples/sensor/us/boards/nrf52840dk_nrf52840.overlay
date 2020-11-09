@@ -1,0 +1,66 @@
+/ {
+
+    sensors {
+
+        us0: hc-sr04 {
+            compatible = "elecfreaks,hc-sr04";
+            label = "HC-SR04_0";
+            trig-gpios = <&gpio0 26 GPIO_ACTIVE_HIGH>;
+            echo-gpios = <&gpio0 27 GPIO_ACTIVE_HIGH>;
+            status = "okay";
+        };
+    
+        us0_nrfx: hc-sr04_nrfx {
+            compatible = "elecfreaks,hc-sr04_nrfx";
+            label = "HC-SR04_NRFX_0";
+            trig-pin = <26>;
+            echo-pin = <27>;
+            status = "okay";
+        };
+    };
+
+    soc {
+
+        egu0: egu@40014000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40014000 0x1000>;
+                interrupts = <20 2>;
+                status = "okay";
+        };
+
+        egu1: egu@40015000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40015000 0x1000>;
+                interrupts = <21 2>;
+                status = "okay";
+        };
+
+        egu2: egu@40016000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40016000 0x1000>;
+                interrupts = <22 2>;
+                status = "okay";
+        };
+
+        egu3: egu@40017000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40017000 0x1000>;
+                interrupts = <23 2>;
+                status = "okay";
+        };
+
+        egu4: egu@40018000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40018000 0x1000>;
+                interrupts = <24 2>;
+                status = "okay";
+        };
+
+        egu5: egu@40019000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40019000 0x1000>;
+                interrupts = <25 2>;
+                status = "okay";
+        };
+    };
+};
