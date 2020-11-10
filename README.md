@@ -15,7 +15,7 @@ The TRIG (top, 11us) and ECHO (bottom, 9.3ms) pulses look like this when the sen
 
 <p align="center"><img src="https://user-images.githubusercontent.com/6494431/98500542-a1374e00-2201-11eb-9783-fd52ad7a6a71.png" width="768"></p>
 
-If the sensor can't get a valid measurement -- because the target is too close or too far away -- then the ECHO pulse is 128.6ms long followed by a second 6us pulse about 145us later. This error pulse can't be truncated so when it occurs it effectively reduces the sensor's working rate down from the nominal 40Hz.
+If the sensor can't get a valid measurement -- because the target is too close or too far away -- then the ECHO pulse is 128.6ms long followed by a second 6us pulse about 145us later. This error pulse can't be truncated so when it occurs it effectively reduces the sensor's 40Hz working rate.
 
 ### About the driver
 There are two variants the driver:
