@@ -17,13 +17,15 @@ The TRIG (top, 11us) and ECHO (bottom, 9.3ms) pulses look like this when the sen
 
 If the sensor can't get a valid measurement -- because the target is too close or too far away -- then the ECHO pulse is 128.6ms long followed by a second 6us pulse about 145us later. This error pulse can't be truncated so when it occurs it effectively reduces the sensor's 40Hz working rate.
 
+Perhaps the biggest consideration when using these devices is that performing measurements using multiple HC-SR04 devices simultaneously can cause erroneous results because the individual sensors can't differentiate their own pulses from the others.
+
 ### About the driver
-There are two variants of the driver:
- - **HC_SR04 uses a pin change interrupt to perform measurement by calling k_cycle_get_32**.
+The driver assumes --and uses a mutex to enforce-- that only one HC-SR04 will be actively measuring at any given time. There are two variants of the driver:
+ - **HC_SR04 uses a pin-change interrupt to measure by calling k_cycle_get_32 in rising-edge and falling-edge interrupts.**
    - PRO: Should work reasonably well on most platforms
    - PRO: Uses the standard GPIO driver
-   - CON: Delaying the pin change interrupt will affect the measurement
- - **HC_SR04_NRFX uses GPIOTE, TIMER, PPI, and EGU peripherals to limit CPU activity while measuring and enhances precision.**
+   - CON: Any latency when servicing the pin-change interrupt will affect the measurement
+ - **HC_SR04_NRFX uses GPIOTE, TIMER, PPI, and EGU peripherals to measure using a hardware timer and then triggers an interrupt after completion.**
    - PRO: Only one CPU interrupt per measurement
    - PRO: Measurement is not affected if interrupt is delayed
    - CON: Uses nRF52-specific hardware peripherals
