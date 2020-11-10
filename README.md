@@ -18,7 +18,7 @@ The TRIG (top, 11us) and ECHO (bottom, 9.3ms) pulses look like this when the sen
 If the sensor can't get a valid measurement -- because the target is too close or too far away -- then the ECHO pulse is 128.6ms long followed by a second 6us pulse about 145us later. This error pulse can't be truncated so when it occurs it effectively reduces the sensor's 40Hz working rate.
 
 ### About the driver
-There are two variants the driver:
+There are two variants of the driver:
  - **HC_SR04 uses a pin change interrupt to perform measurement by calling k_cycle_get_32**.
    - PRO: Should work reasonably well on most platforms
    - PRO: Uses the standard GPIO driver
