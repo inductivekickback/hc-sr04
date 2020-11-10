@@ -7,7 +7,7 @@ The HC-SR04 ranging module is an inexpensive sensor for measuring distance in a 
  1. Wait for the ECHO pin to go high and then measure how long it remains high
  1. Convert the measured time to meters using the speed of sound
 
-Although the HC-SR04 is a 5V device, its TRIG pin works fine when driven at 3V and it's trivial to use a resistor divider to reduce the voltage of the ECHO pin. The following configuration works fine with an [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK): 
+Although the HC-SR04 is a 5V device, its TRIG pin works fine when driven at 3V and it's trivial to use a couple of resistors as a voltage divider on the ECHO pin. The following configuration works fine with an [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK): 
 
 <p align="center"><img src="https://user-images.githubusercontent.com/6494431/98627864-10787500-22ca-11eb-9a64-a5d4383ecc3b.png" width="256"></p>
 
