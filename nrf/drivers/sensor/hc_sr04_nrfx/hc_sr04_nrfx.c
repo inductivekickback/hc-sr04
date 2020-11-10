@@ -481,7 +481,7 @@ static int hc_sr04_nrfx_sample_fetch(const struct device *dev, enum sensor_chann
         return -ENXIO;
     }
 
-    nrf_timer_task_trigger(m_shared_resources.timer.p_reg, NRF_TIMER_TASK_START);
+    nrfx_timer_enable(&m_shared_resources.timer);
 
     if (0 != k_sem_take(&m_shared_resources.fetch_sem, K_MSEC(T_MAX_WAIT_MS))) {
         LOG_DBG("No response from HC-SR04.");
@@ -491,6 +491,7 @@ static int hc_sr04_nrfx_sample_fetch(const struct device *dev, enum sensor_chann
         return -EIO;
     }
 
+    nrfx_timer_disable(&m_shared_resources.timer);
     gpiote_pins_uninit(p_cfg->trig_pin, p_cfg->echo_pin);
 
     count  = nrfx_timer_capture_get(&m_shared_resources.timer, TIMER_ECHO_END_CHAN);
