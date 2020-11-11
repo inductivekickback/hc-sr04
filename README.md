@@ -32,8 +32,8 @@ The driver assumes --and uses a mutex to enforce-- that only one HC-SR04 will be
    - CON: Uses GPIOTE driver --but not the GPIOTE interrupt-- so it's not entirely compatible with standard GPIO driver
 
 ### Using the HC_SR04 variant
-This is an example DT entry when using **HC_SR04**:
-```C
+This is an example DT entry in the project's local overlay (e.g. "nrf52840dk_nrf52840.overlay") when using **HC_SR04**:
+```
 us0: hc-sr04 {
     compatible = "elecfreaks,hc-sr04";
     label = "HC-SR04_0";
@@ -50,13 +50,63 @@ CONFIG_HC_SR04=y
 ```
 ### Using the HC_SR04_NRFX variant
 The **HC_SR04_NRFX** version is similar but uses NRFX-style pin numbers instead:
-```C
+```
 us0_nrfx: hc-sr04_nrfx {
     compatible = "elecfreaks,hc-sr04_nrfx";
     label = "HC-SR04_NRFX_0";
     trig-pin = <26>;
     echo-pin = <27>;
     status = "okay";
+};
+```
+Device tree definitions for SoCs like the nRF52840 don't always contain EGU instances. They can be added to the project's overlay by using the memory addresses from the [Product Specification](https://infocenter.nordicsemi.com/index.jsp?topic=%2Fps_nrf52840%2Fmemory.html&cp=4_0_0_3_1_3&anchor=topic):
+
+```
+/ {
+    soc {
+
+        egu0: egu@40014000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40014000 0x1000>;
+                interrupts = <20 2>;
+                status = "okay";
+        };
+
+        egu1: egu@40015000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40015000 0x1000>;
+                interrupts = <21 2>;
+                status = "okay";
+        };
+
+        egu2: egu@40016000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40016000 0x1000>;
+                interrupts = <22 2>;
+                status = "okay";
+        };
+
+        egu3: egu@40017000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40017000 0x1000>;
+                interrupts = <23 2>;
+                status = "okay";
+        };
+
+        egu4: egu@40018000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40018000 0x1000>;
+                interrupts = <24 2>;
+                status = "okay";
+        };
+
+        egu5: egu@40019000 {
+                compatible = "nordic,nrf-egu";
+                reg = <0x40019000 0x1000>;
+                interrupts = <25 2>;
+                status = "okay";
+        };
+    };
 };
 ```
 Then add the following to **prj.conf**: 
