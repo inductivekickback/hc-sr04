@@ -117,4 +117,4 @@ CONFIG_HC_SR04_NRFX=y
 ```
 The HC_SR04_NRFX Kconfig allows the user to select which TIMER and EGU instances to use.
 
-**NOTE:** the project will compile normally if CONFIG_GPIO is enabled but **unexpected side effects will happen if the native GPIO driver is used to configure pin change interrupts -- the GPIOTE driver should be used instead.**
+**NOTE:** the project will compile normally if CONFIG_GPIO is enabled but **unexpected side effects will happen if the native GPIO driver is used to configure pin change interrupts -- the NRFX GPIOTE driver should be used instead.**
