@@ -17,7 +17,7 @@ The TRIG (top, 11us) and ECHO (bottom, 9.3ms) pulses look like this when the sen
 
 If the sensor can't get a valid measurement -- because the target is too close or too far away -- then the ECHO pulse is 128.6ms long followed by a second 6us pulse about 145us later. This error pulse can't be truncated so when it occurs it effectively reduces the sensor's 40Hz working rate.
 
-Perhaps the biggest consideration when using these devices is that performing measurements using multiple HC-SR04 devices simultaneously can cause erroneous results because the individual sensors can't differentiate their own pulses from the others.
+Perhaps the biggest consideration when using these devices is that performing measurements using multiple HC-SR04 devices simultaneously can cause erroneous results because the individual sensors can't differentiate their own echo pulses from the pulses produced by the other devices.
 
 ### About the driver
 The driver assumes --and uses a mutex to enforce-- that only one HC-SR04 will be actively measuring at any given time. There are two variants of the driver:
