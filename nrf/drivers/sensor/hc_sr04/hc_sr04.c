@@ -57,7 +57,6 @@ struct hc_sr04_data {
 };
 
 struct hc_sr04_cfg {
-;
     const char * const   trig_port;
     const uint8_t        trig_pin;
     const uint32_t       trig_flags;
