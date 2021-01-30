@@ -196,7 +196,7 @@ static int hc_sr04_sample_fetch(const struct device *dev, enum sensor_channel ch
         /* Convert to meters and divide round-trip distance by two */
         count = (count * METERS_PER_SEC / 2);
         p_data->sensor_value.val2 = (count % 1000000);
-        p_data->sensor_value.val1 = (count - p_data->sensor_value.val2);
+        p_data->sensor_value.val1 = (count / 1000000);
     } else {
         LOG_INF("Invalid measurement");
         p_data->sensor_value.val1 = 0;

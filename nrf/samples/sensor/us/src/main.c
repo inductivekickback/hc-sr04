@@ -31,7 +31,7 @@ static int measure(const struct device *dev)
             LOG_ERR("sensor_channel_get failed ret %d", ret);
             return ret;
         }
-        LOG_INF("%s: %d.%03dM", dev->name, (distance.val1 / 1000000), (distance.val2 / 1000));
+        LOG_INF("%s: %d.%03dM", dev->name, distance.val1, (distance.val2 / 1000));
         break;
     case -EIO:
         LOG_WRN("%s: Could not read device", dev->name);
