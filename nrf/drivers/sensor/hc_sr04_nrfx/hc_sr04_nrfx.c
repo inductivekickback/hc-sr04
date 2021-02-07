@@ -150,7 +150,9 @@ static nrfx_err_t timer_init(void)
     nrfx_timer_config_t cfg = NRFX_TIMER_DEFAULT_CONFIG;
     cfg.bit_width           = NRF_TIMER_BIT_WIDTH_24,
     cfg.frequency           = NRF_TIMER_FREQ_1MHz;
-    cfg.interrupt_priority  = DT_IRQ(DT_INST(CONFIG_HC_SR04_NRFX_TIMER, nordic_nrf_timer), priority);
+    cfg.interrupt_priority  = DT_IRQ(DT_NODELABEL(NRFX_CONCAT_2(timer,
+                                                                CONFIG_HC_SR04_NRFX_TIMER)),
+                                                                priority);
 
     err = nrfx_timer_init(&m_shared_resources.timer, &cfg, timer_handler);
     if (NRFX_SUCCESS != err) {
@@ -166,8 +168,8 @@ static nrfx_err_t egu_init(NRF_EGU_Type ** p_egu)
 {
     nrfx_err_t err;
 
-    IRQ_CONNECT(DT_IRQN(DT_INST(CONFIG_HC_SR04_NRFX_EGU, nordic_nrf_egu)),
-            DT_IRQ(DT_INST(CONFIG_HC_SR04_NRFX_EGU, nordic_nrf_egu), priority),
+    IRQ_CONNECT(DT_IRQN(DT_NODELABEL(NRFX_CONCAT_2(egu, CONFIG_HC_SR04_NRFX_EGU))),
+            DT_IRQ(DT_NODELABEL(NRFX_CONCAT_2(egu, CONFIG_HC_SR04_NRFX_EGU)), priority),
             nrfx_isr,
             NRFX_CONCAT_3(nrfx_egu_, CONFIG_HC_SR04_NRFX_EGU, _irq_handler),
             0);
@@ -542,14 +544,16 @@ static const struct sensor_driver_api hc_sr04_nrfx_driver_api = {
     .channel_get  = hc_sr04_nrfx_channel_get,
 };
 
+#define INST(num) DT_INST(num, elecfreaks_hc_sr04_nrfx)
+
 #define HC_SR04_NRFX_DEVICE(n) \
     static const struct hc_sr04_nrfx_cfg hc_sr04_nrfx_cfg_##n = { \
-        .trig_pin = DT_PROP(DT_NODELABEL(us##n##_nrfx), trig_pin), \
-        .echo_pin = DT_PROP(DT_NODELABEL(us##n##_nrfx), echo_pin) \
+        .trig_pin = DT_PROP(INST(n), trig_pin), \
+        .echo_pin = DT_PROP(INST(n), echo_pin) \
     }; \
     static struct hc_sr04_nrfx_data hc_sr04_nrfx_data_##n; \
     DEVICE_AND_API_INIT(hc_sr04_nrfx_##n, \
-                DT_LABEL(DT_NODELABEL(us##n##_nrfx)), \
+                DT_LABEL(INST(n)), \
                 hc_sr04_nrfx_init, \
                 &hc_sr04_nrfx_data_##n, \
                 &hc_sr04_nrfx_cfg_##n, \
@@ -557,42 +561,8 @@ static const struct sensor_driver_api hc_sr04_nrfx_driver_api = {
                 CONFIG_SENSOR_INIT_PRIORITY, \
                 &hc_sr04_nrfx_driver_api);
 
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us0_nrfx), okay)
-HC_SR04_NRFX_DEVICE(0)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us1_nrfx), okay)
-HC_SR04_NRFX_DEVICE(1)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us2_nrfx), okay)
-HC_SR04_NRFX_DEVICE(2)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us3_nrfx), okay)
-HC_SR04_NRFX_DEVICE(3)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us4_nrfx), okay)
-HC_SR04_NRFX_DEVICE(4)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us5_nrfx), okay)
-HC_SR04_NRFX_DEVICE(5)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us6_nrfx), okay)
-HC_SR04_NRFX_DEVICE(6)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us7_nrfx), okay)
-HC_SR04_NRFX_DEVICE(7)
-#endif
+DT_INST_FOREACH_STATUS_OKAY(HC_SR04_NRFX_DEVICE)
 
 #if DT_NUM_INST_STATUS_OKAY(DT_DRV_COMPAT) == 0
 #warning "HC_SR04_NRFX driver enabled without any devices"
-#endif
-
-#if DT_NUM_INST_STATUS_OKAY(DT_DRV_COMPAT) > 8
-#warning "Too many HC_SR04_NRFX devices"
 #endif

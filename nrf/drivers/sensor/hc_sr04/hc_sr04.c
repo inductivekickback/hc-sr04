@@ -238,18 +238,20 @@ static const struct sensor_driver_api hc_sr04_driver_api = {
     .channel_get  = hc_sr04_channel_get,
 };
 
+#define INST(num) DT_INST(num, elecfreaks_hc_sr04)
+
 #define HC_SR04_DEVICE(n) \
     static const struct hc_sr04_cfg hc_sr04_cfg_##n = { \
-        .trig_port  = DT_GPIO_LABEL(DT_NODELABEL(us##n), trig_gpios), \
-        .trig_pin   = DT_GPIO_PIN(DT_NODELABEL(us##n),   trig_gpios), \
-        .trig_flags = DT_GPIO_FLAGS(DT_NODELABEL(us##n), trig_gpios), \
-        .echo_port  = DT_GPIO_LABEL(DT_NODELABEL(us##n), echo_gpios), \
-        .echo_pin   = DT_GPIO_PIN(DT_NODELABEL(us##n),   echo_gpios), \
-        .echo_flags = DT_GPIO_FLAGS(DT_NODELABEL(us##n), echo_gpios), \
+        .trig_port  = DT_GPIO_LABEL(INST(n), trig_gpios), \
+        .trig_pin   = DT_GPIO_PIN(INST(n),   trig_gpios), \
+        .trig_flags = DT_GPIO_FLAGS(INST(n), trig_gpios), \
+        .echo_port  = DT_GPIO_LABEL(INST(n), echo_gpios), \
+        .echo_pin   = DT_GPIO_PIN(INST(n),   echo_gpios), \
+        .echo_flags = DT_GPIO_FLAGS(INST(n), echo_gpios), \
     }; \
     static struct hc_sr04_data hc_sr04_data_##n; \
     DEVICE_AND_API_INIT(hc_sr04_##n, \
-                DT_LABEL(DT_NODELABEL(us##n)), \
+                DT_LABEL(INST(n)), \
                 hc_sr04_init, \
                 &hc_sr04_data_##n, \
                 &hc_sr04_cfg_##n, \
@@ -257,42 +259,8 @@ static const struct sensor_driver_api hc_sr04_driver_api = {
                 CONFIG_SENSOR_INIT_PRIORITY, \
                 &hc_sr04_driver_api);
 
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us0), okay)
-HC_SR04_DEVICE(0)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us1), okay)
-HC_SR04_DEVICE(1)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us2), okay)
-HC_SR04_DEVICE(2)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us3), okay)
-HC_SR04_DEVICE(3)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us4), okay)
-HC_SR04_DEVICE(4)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us5), okay)
-HC_SR04_DEVICE(5)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us6), okay)
-HC_SR04_DEVICE(6)
-#endif
-
-#if DT_NODE_HAS_STATUS(DT_NODELABEL(us7), okay)
-HC_SR04_DEVICE(7)
-#endif
+DT_INST_FOREACH_STATUS_OKAY(HC_SR04_DEVICE)
 
 #if DT_NUM_INST_STATUS_OKAY(DT_DRV_COMPAT) == 0
 #warning "HC_SR04 driver enabled without any devices"
-#endif
-
-#if DT_NUM_INST_STATUS_OKAY(DT_DRV_COMPAT) > 8
-#warning "Too many HC_SR04 devices"
 #endif
